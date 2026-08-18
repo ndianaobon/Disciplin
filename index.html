@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Disciplin — UI Mockup</title>
+<meta name="theme-color" content="#0C0F16">
+<title>Disciplin</title>
+<link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -25,23 +27,9 @@
     display:flex;flex-direction:column;align-items:center;
     padding:32px 16px 48px;
   }
-  .lockup{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  .lockup{display:flex;align-items:center;gap:9px;margin-bottom:18px}
   .lockup .mark{width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 3px 12px rgba(27,114,111,.45))}
   .wordmark{font-size:30px;color:#fff;letter-spacing:.01em}
-  .stage-label{color:#3d4351;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
-  .brandstamp{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:14px;font-size:12px;color:var(--faint)}
-  .brandstamp .serif{font-size:14px;color:var(--muted)}
-  .brandstamp .mini{width:15px;height:15px;object-fit:contain}
-  .switcher{display:flex;gap:8px;margin-bottom:22px}
-  .switcher button{
-    font-family:'Inter';font-size:13px;font-weight:600;color:var(--muted);
-    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-    padding:8px 18px;border-radius:99px;cursor:pointer;
-    transition:all .3s var(--ease);
-  }
-  .switcher button:hover{color:#c9d0dc;border-color:rgba(255,255,255,.2)}
-  .switcher button.on{color:#fff;background:var(--accent);border-color:var(--accent);box-shadow:0 4px 18px rgba(27,143,130,.35)}
-  .switcher button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
   /* ---------- phone frame ---------- */
   .phone{
@@ -52,9 +40,14 @@
     padding:14px 0 0;
     box-shadow:0 40px 90px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
     overflow:hidden;position:relative;
+    display:flex;flex-direction:column;
+  }
+  @media (max-width:430px){
+    body{padding:14px 0 0}
+    .phone{border-radius:0;border:none;min-height:calc(100vh - 70px)}
   }
   .statusbar{display:flex;justify-content:space-between;align-items:center;padding:6px 26px 10px;font-size:13px;font-weight:600;color:var(--muted)}
-  .screen{display:none;padding:4px 20px 0;min-height:780px;flex-direction:column}
+  .screen{display:none;padding:4px 20px 16px;min-height:700px;flex-direction:column;flex:1}
   .screen.on{display:flex;animation:screenIn .5s var(--ease)}
   @keyframes screenIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
@@ -64,7 +57,6 @@
   .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:600}
   .ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
 
-  /* staggered entrance */
   .rise{opacity:0;transform:translateY(18px);animation:rise .6s var(--ease) forwards}
   @keyframes rise{to{opacity:1;transform:none}}
   .d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.19s}.d4{animation-delay:.26s}
@@ -86,6 +78,7 @@
   .score-meta .row{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0;color:var(--muted)}
   .score-meta .row b{color:var(--text);font-weight:600}
   .trend-down{color:var(--missed)!important}
+  .trend-up{color:var(--done)!important}
 
   .commit{
     width:100%;border:none;cursor:pointer;font-family:'Inter';
@@ -132,7 +125,7 @@
   .habit.late .state{color:var(--late)}
   .habit.late .chip{background:rgba(245,158,11,.1);color:var(--late)}
 
-  .habit.missed{opacity:.55;filter:saturate(.4);border-color:rgba(239,68,68,.4)}
+  .habit.missed{opacity:.6;filter:saturate(.5);border-color:rgba(239,68,68,.4)}
   .habit.missed .state{color:var(--missed)}
   .habit.missed .chip{color:var(--missed);background:rgba(239,68,68,.08)}
   .habit.missed::after{
@@ -159,13 +152,15 @@
 
   .habit.upcoming .state{color:var(--faint)}
 
-  /* check-in success morph */
+  .gracebtn{
+    border:1px solid rgba(52,211,153,.4);background:transparent;color:var(--done);
+    cursor:pointer;font-family:'Inter';font-size:10px;font-weight:700;
+    padding:5px 9px;border-radius:8px;margin-top:6px;transition:all .2s;
+  }
+  .gracebtn:hover{background:rgba(52,211,153,.12)}
+
   .habit.just-done{animation:pop .5s var(--ease)}
   @keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.025)}100%{transform:scale(1)}}
-  .checkmark{width:22px;height:22px}
-  .checkmark path{stroke:var(--done);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;
-    stroke-dasharray:30;stroke-dashoffset:30;animation:draw .5s .1s var(--ease) forwards}
-  @keyframes draw{to{stroke-dashoffset:0}}
 
   .review-cta{
     margin-top:auto;margin-bottom:14px;width:100%;cursor:pointer;font-family:'Inter';
@@ -175,17 +170,50 @@
   }
   .review-cta:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2)}
   .review-cta small{display:block;font-weight:500;color:var(--faint);font-size:11px;margin-top:2px}
+  .review-cta.alert{border-color:rgba(239,68,68,.4)}
+  .review-cta.alert small{color:var(--missed)}
 
-  .tabbar{display:flex;justify-content:space-around;align-items:center;padding:12px 10px 26px;border-top:1px solid rgba(255,255,255,.07);margin:0 -20px}
-  .tab{font-size:10px;font-weight:600;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:color .25s;position:relative}
+  .empty-note{text-align:center;color:var(--faint);font-size:13px;padding:30px 10px;line-height:1.6}
+  .empty-note button{margin-top:12px}
+
+  .tabbar{display:flex;justify-content:space-around;align-items:center;padding:12px 10px 26px;border-top:1px solid rgba(255,255,255,.07)}
+  .tab{font-size:10px;font-weight:600;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:color .25s;position:relative;background:none;border:none;font-family:'Inter'}
   .tab:hover{color:var(--muted)}
   .tab.cur{color:#fff}
   .tab.cur::before{content:"";position:absolute;top:-13px;width:18px;height:2px;border-radius:2px;background:var(--accent)}
   .tab .ic{width:21px;height:21px}
 
+  .tab-learn-ic{
+    width:46px;height:46px;border-radius:50%;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#1B8F82,#0E5E71);
+    margin-top:-24px;
+    box-shadow:0 8px 22px rgba(27,143,130,.45), 0 0 0 5px var(--bg1);
+    transition:all .25s var(--ease);
+  }
+  .tab-learn-ic .ic{width:24px;height:24px;stroke:#fff;stroke-width:2}
+  .tab-learn:hover .tab-learn-ic{transform:translateY(-2px)}
+  .tab-learn.cur{color:#fff}
+  .tab-learn.cur::before{display:none}
+  .tab-learn.cur .tab-learn-ic{box-shadow:0 10px 28px rgba(27,143,130,.6), 0 0 0 5px var(--bg1)}
+
+  .lesson-card{cursor:pointer}
+  .lesson-card:hover{border-color:rgba(255,255,255,.2)}
+  .lesson-list{list-style:none;margin-top:2px}
+  .lesson-list li{display:flex;gap:10px;font-size:13px;color:var(--text);line-height:1.55;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+  .lesson-list li:last-child{border-bottom:none}
+  .lesson-list li b{color:var(--accent);flex:none;font-weight:700}
+
   /* ---------- REPORT CARD ---------- */
-  .rc-head{margin:6px 2px 16px}
+  .rc-head{margin:6px 2px 16px;display:flex;justify-content:space-between;align-items:flex-end}
   .rc-head h1{font-size:34px;color:#fff;line-height:1}
+  .period-tabs{display:flex;gap:6px}
+  .period-tabs button{
+    font-family:'Inter';font-size:11px;font-weight:700;color:var(--muted);
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+    padding:6px 12px;border-radius:99px;cursor:pointer;transition:all .25s;
+  }
+  .period-tabs button.on{color:#fff;background:var(--accent);border-color:var(--accent)}
 
   .grade-card{padding:26px 22px 22px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
   .grade-card::before{
@@ -193,10 +221,10 @@
     background:radial-gradient(ellipse at center, rgba(245,158,11,.14), transparent 65%);
     pointer-events:none;
   }
-  .grade{font-size:110px;line-height:.9;color:#F5B23C;text-shadow:0 6px 40px rgba(245,158,11,.35);
+  .grade{font-size:96px;line-height:.9;color:#F5B23C;text-shadow:0 6px 40px rgba(245,158,11,.35);
     display:inline-block;opacity:0;transform:scale(.6);animation:gradeIn .7s .35s var(--ease) forwards}
   @keyframes gradeIn{60%{opacity:1;transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
-  .grade sup{font-size:44px;vertical-align:38px}
+  .grade sup{font-size:40px;vertical-align:34px}
   .grade-sub{font-size:12.5px;color:var(--muted);margin-top:10px;font-weight:500}
   .grade-sub b{color:var(--text)}
   .verdict{
@@ -205,6 +233,9 @@
     border-radius:12px;padding:10px 14px;line-height:1.5;text-align:left;
   }
   .verdict b{color:var(--missed)}
+  .brandstamp{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:14px;font-size:12px;color:var(--faint)}
+  .brandstamp .serif{font-size:14px;color:var(--muted)}
+  .brandstamp .mini{width:15px;height:15px;object-fit:contain}
 
   .week-strip{display:flex;justify-content:space-between;padding:16px 18px;margin-bottom:14px}
   .day{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:10.5px;font-weight:700;color:var(--faint);letter-spacing:.05em}
@@ -234,8 +265,9 @@
   .ex-row:last-child{margin-bottom:0}
   .ex-row .bar{height:7px;border-radius:4px;background:linear-gradient(90deg,rgba(239,68,68,.7),rgba(239,68,68,.25));
     width:0;transition:width 1s var(--ease)}
-  .ex-row p{font-size:12.5px;color:var(--text);flex:none;width:110px}
+  .ex-row p{font-size:12.5px;color:var(--text);flex:none;width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ex-row span{font-size:11px;color:var(--faint);font-weight:600;flex:none;margin-left:auto}
+  .ex-none{font-size:12.5px;color:var(--faint)}
 
   .share{
     width:100%;border:none;cursor:pointer;font-family:'Inter';
@@ -246,14 +278,134 @@
   .share:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(27,143,130,.38)}
   .share:active{transform:scale(.98)}
 
+  /* ---------- HABITS ---------- */
+  .hb-card{display:flex;align-items:center;gap:14px;padding:15px 16px;margin-bottom:10px}
+  .hb-card .chip{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:none;background:rgba(255,255,255,.06);color:var(--muted)}
+  .hb-card .info{flex:1;min-width:0}
+  .hb-card h3{font-size:15px;font-weight:600;display:flex;align-items:center;gap:7px}
+  .hb-card p{font-size:12px;color:var(--muted);margin-top:3px}
+  .editbtn{
+    border:1px solid var(--glass-border);background:transparent;color:var(--muted);
+    cursor:pointer;font-family:'Inter';font-size:11px;font-weight:700;
+    padding:7px 12px;border-radius:9px;transition:all .2s;
+  }
+  .editbtn:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+  .addbtn{
+    width:100%;border:1px dashed rgba(255,255,255,.2);background:transparent;cursor:pointer;
+    color:var(--muted);font-family:'Inter';font-size:14px;font-weight:600;
+    padding:14px;border-radius:16px;margin-top:4px;transition:all .25s;
+  }
+  .addbtn:hover{color:#fff;border-color:var(--accent);background:rgba(27,143,130,.08)}
+
+  /* ---------- SETTINGS ---------- */
+  .set-group{padding:16px 18px;margin-bottom:12px}
+  .set-group h4{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:12px}
+  .set-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13.5px}
+  .set-row p{color:var(--text)}
+  .set-row small{display:block;font-size:11px;color:var(--faint);margin-top:2px}
+  .toggle{
+    width:44px;height:25px;border-radius:99px;background:rgba(255,255,255,.12);border:none;cursor:pointer;
+    position:relative;transition:background .25s;flex:none;
+  }
+  .toggle::after{content:"";position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:#fff;transition:left .25s var(--ease)}
+  .toggle.on{background:var(--accent)}
+  .toggle.on::after{left:22px}
+  .lead-chips{display:flex;gap:6px}
+  .lead-chips button{
+    font-family:'Inter';font-size:11.5px;font-weight:700;color:var(--muted);
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+    padding:6px 11px;border-radius:99px;cursor:pointer;transition:all .2s;
+  }
+  .lead-chips button.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+  .stepper{display:flex;align-items:center;gap:10px}
+  .stepper button{
+    width:26px;height:26px;border-radius:8px;border:1px solid var(--glass-border);background:transparent;
+    color:var(--text);font-size:15px;cursor:pointer;font-family:'Inter';
+  }
+  .stepper b{min-width:16px;text-align:center;font-variant-numeric:tabular-nums}
+  .set-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .set-actions button{
+    flex:1;border:1px solid var(--glass-border);background:rgba(255,255,255,.05);color:var(--text);
+    font-family:'Inter';font-size:12px;font-weight:600;padding:10px;border-radius:11px;cursor:pointer;transition:all .2s;
+  }
+  .set-actions button:hover{border-color:rgba(255,255,255,.25)}
+  .set-actions button.danger{color:var(--missed);border-color:rgba(239,68,68,.3)}
+  .set-actions button.danger:hover{background:rgba(239,68,68,.08)}
+  .notif-status{font-size:11px;color:var(--faint);margin-top:6px}
+
+  /* ---------- modal ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);
+    display:none;align-items:center;justify-content:center;z-index:50;padding:18px;
+  }
+  .overlay.show{display:flex;animation:fadeIn .25s}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .modal{
+    width:100%;max-width:350px;max-height:86vh;overflow-y:auto;
+    background:linear-gradient(165deg,#131826,#0F131D);
+    border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:22px;
+    animation:modalIn .35s var(--ease);
+  }
+  @keyframes modalIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+  .modal h2{font-size:21px;color:#fff;margin-bottom:4px}
+  .modal .sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700;margin-bottom:6px}
+  .field input[type=text],.field input[type=time],.field input[type=number],.field textarea,.field select{
+    width:100%;background:rgba(255,255,255,.06);border:1px solid var(--glass-border);
+    border-radius:11px;padding:11px 12px;color:var(--text);font-family:'Inter';font-size:14px;outline:none;
+  }
+  .field input:focus,.field textarea:focus{border-color:var(--accent)}
+  .field-row{display:flex;gap:10px}
+  .field-row .field{flex:1}
+  .daypick{display:flex;gap:5px}
+  .daypick button{
+    flex:1;font-family:'Inter';font-size:11px;font-weight:700;color:var(--muted);
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+    padding:8px 0;border-radius:9px;cursor:pointer;transition:all .2s;
+  }
+  .daypick button.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+  .iconpick{display:flex;gap:6px;flex-wrap:wrap}
+  .iconpick button{
+    width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--muted);cursor:pointer;transition:all .2s;
+  }
+  .iconpick button.on{color:#fff;background:rgba(27,143,130,.25);border-color:var(--accent)}
+  .nn-row{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:12px;padding:11px 13px;margin-bottom:13px}
+  .nn-row p{font-size:13px;font-weight:600}
+  .nn-row small{display:block;font-size:10.5px;color:var(--faint);font-weight:400;margin-top:1px}
+  .modal-actions{display:flex;gap:9px;margin-top:16px}
+  .modal-actions button{
+    flex:1;border:none;cursor:pointer;font-family:'Inter';font-size:13.5px;font-weight:700;
+    padding:13px;border-radius:13px;transition:all .2s;
+  }
+  .btn-primary{background:linear-gradient(120deg,#1B8F82,#0E5E71);color:#fff}
+  .btn-primary:hover{filter:brightness(1.1)}
+  .btn-ghost{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--glass-border)!important}
+  .btn-ghost:hover{color:#fff}
+  .btn-danger{background:rgba(239,68,68,.12);color:var(--missed);border:1px solid rgba(239,68,68,.3)!important}
+  .btn-danger:hover{background:rgba(239,68,68,.2)}
+  .excuse-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .excuse-chips button{
+    font-family:'Inter';font-size:12px;font-weight:600;color:var(--muted);
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+    padding:7px 12px;border-radius:99px;cursor:pointer;transition:all .2s;
+  }
+  .excuse-chips button.on{color:#fff;background:rgba(239,68,68,.25);border-color:rgba(239,68,68,.5)}
+  .refl-item{margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.07)}
+  .refl-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .refl-item h3{font-size:14px;font-weight:600;margin-bottom:8px;color:var(--missed)}
+
   .toast{
-    position:absolute;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);
+    position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
     background:#171C27;border:1px solid rgba(52,211,153,.4);color:var(--done);
     font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:99px;
     opacity:0;pointer-events:none;transition:all .4s var(--ease);white-space:nowrap;
-    box-shadow:0 12px 30px rgba(0,0,0,.5);display:flex;align-items:center;gap:8px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5);display:flex;align-items:center;gap:8px;z-index:99;
+    max-width:92vw;overflow:hidden;text-overflow:ellipsis;
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast.warn{border-color:rgba(245,158,11,.45);color:var(--late)}
 
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
@@ -264,13 +416,8 @@
 <body>
 
 <div class="lockup">
-  <img class="mark" src="data:image/png;base64,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" alt="Disciplin logo">
+  <img class="mark" src="logo.png" alt="Disciplin logo">
   <span class="wordmark serif">Disciplin</span>
-</div>
-<div class="stage-label">Interactive mockup · dark glass, sharp consequences</div>
-<div class="switcher" role="tablist">
-  <button class="on" data-target="scr-today" role="tab">Today</button>
-  <button data-target="scr-report" role="tab">Report Card</button>
 </div>
 
 <!-- SVG icon sprite -->
@@ -286,24 +433,496 @@
     <g id="i-chart"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></g>
     <g id="i-list"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></g>
     <g id="i-gear"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M4.3 6.5l2.1 2.1M17.6 15.4l2.1 2.1M2.5 12h3M18.5 12h3M4.3 17.5l2.1-2.1M17.6 8.6l2.1-2.1"/></g>
-      <rect x="69" y="64.5" width="9.5" height="9.5" rx="2.5"/>
-    </g>
+    <g id="i-moon"><path d="M20 13.5A8 8 0 1 1 10.5 4a6.5 6.5 0 0 0 9.5 9.5z"/></g>
+    <g id="i-heart"><path d="M12 20.5s-7.5-4.7-9.3-9.3C1.5 8 3.6 4.9 6.8 4.9c2 0 3.7 1.2 5.2 3.2 1.5-2 3.2-3.2 5.2-3.2 3.2 0 5.3 3.1 4.1 6.3-1.8 4.6-9.3 9.3-9.3 9.3z"/></g>
   </defs>
 </svg>
 
 <div class="phone">
-  <div class="statusbar"><span>9:41</span><span>100%</span></div>
+  <div class="statusbar"><span id="clock">--:--</span><span id="dateShort"></span></div>
 
   <!-- ================= TODAY ================= -->
-  <div class="screen on" id="scr-today">
+  <div class="screen on" id="scr-today"></div>
+
+  <!-- ================= REPORT CARD ================= -->
+  <div class="screen" id="scr-report"></div>
+
+  <!-- ================= LEARN ================= -->
+  <div class="screen" id="scr-learn"></div>
+
+  <!-- ================= HABITS ================= -->
+  <div class="screen" id="scr-habits"></div>
+
+  <!-- ================= SETTINGS ================= -->
+  <div class="screen" id="scr-settings"></div>
+
+  <div class="tabbar">
+    <button class="tab cur" data-scr="scr-today"><svg class="ic"><use href="#i-home"/></svg>Today</button>
+    <button class="tab" data-scr="scr-report"><svg class="ic"><use href="#i-chart"/></svg>Stats</button>
+    <button class="tab tab-learn" data-scr="scr-learn"><span class="tab-learn-ic"><svg class="ic"><use href="#i-book"/></svg></span>Learn</button>
+    <button class="tab" data-scr="scr-habits"><svg class="ic"><use href="#i-list"/></svg>Habits</button>
+    <button class="tab" data-scr="scr-settings"><svg class="ic"><use href="#i-gear"/></svg>Settings</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept=".json" style="display:none">
+
+<script>
+'use strict';
+/* =====================================================
+   Disciplin — daily routine tracker
+   local-first: all data lives in localStorage
+   ===================================================== */
+const STORE = 'disciplin_v1';
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ICONS = ['i-sunrise','i-dumbbell','i-book','i-focus','i-walk','i-pen','i-moon','i-heart'];
+const EXCUSE_PRESETS = ['Slept late','No power','Client call','Not feeling it','Traffic','Forgot'];
+const LEARN_TOPICS = [
+  { id:'t1', icon:'i-list', title:'The Thirty Major Causes Of Failure', sub:'How many of these are holding you back?',
+    intro:'Most people don’t fail from one big disaster — they fail from a slow accumulation of small, repeated choices. Read the list below and be honest about which ones show up in your week.',
+    points:[
+      'An unfavorable starting point in life — the one item on this list that isn’t really your fault, and the one you can’t fix by trying harder',
+      'No clear, written purpose to organize your days around',
+      'Settling for “fine” instead of aiming above the average',
+      'Treating formal schooling as the finish line instead of applying what you actually know',
+      'Lack of self-discipline — the inability to govern your own impulses before they govern you',
+      'Poor health built from habits inside your control: overeating, no exercise, bad sleep, shallow breathing',
+      'A childhood environment that normalized the wrong standards',
+      'Procrastination — waiting for conditions that will never feel “ready enough”',
+      'Starting strong and quitting the moment it gets boring or hard',
+      'A personality that quietly repels the people who could otherwise help you',
+      'Raw impulse and urges spent on distraction instead of channeled into effort',
+      'Chasing something-for-nothing shortcuts instead of earned results',
+      'Indecision — and reversing the few decisions you do make',
+      'Living ruled by fear instead of facts',
+      'Building a life alongside the wrong partner or lack of alignment at home',
+      'Over-caution — refusing every risk, including the ones worth taking',
+      'Surrounding yourself with the wrong people in your work or business',
+      'Superstition, bias, or a closed mind that stopped updating itself',
+      'Working in a field that fights who you actually are',
+      'Scattering your effort across too many goals to finish any of them',
+      'Spending without a plan, leaving no cushion when things go wrong',
+      'Going through the motions without real enthusiasm for the work',
+      'Intolerance — dismissing people or ideas you haven’t bothered to understand',
+      'Overindulgence — no restraint around food, drink, or other appetites',
+      'Difficulty cooperating with others, even when it costs you the opportunity',
+      'Power or resources handed to you before you were ready to carry them',
+      'Small dishonesties that compound into a reputation you can’t undo',
+      'Ego and vanity loud enough to push people away',
+      'Guessing instead of gathering facts and actually thinking it through',
+      'Starting out with no reserve to absorb your first mistakes',
+    ] },
+  { id:'t2', icon:'i-dumbbell', title:'How To Develop Persistence', sub:'The one trait every disciplined person shares',
+    intro:'Persistence isn’t a personality trait you’re born with — it’s built from a small number of conditions, held in place at the same time. Four of them matter most:',
+    points:[
+      'A purpose that’s genuinely yours, fueled by a want strong enough to survive a bad day — not a goal you inherited from someone else',
+      'A definite plan carried out through continuous action, not one that only ever exists on paper',
+      'A mind kept firmly shut against discouragement — including the well-meaning doubt of people close to you',
+      'A close ally or two who expect you to follow through, and who will say so when you start to drift',
+    ] },
+  { id:'t2b', icon:'i-pen', title:'Symptoms Of Lack Of Persistence', sub:'A self-check most people would rather skip',
+    intro:'Persistence rarely fails loudly — it leaks out through small, repeatable habits that feel harmless in the moment. Read this one honestly. The point isn’t guilt, it’s catching the pattern before it costs you another goal.',
+    points:[
+      'Failure to recognize and to clearly define exactly what one wants',
+      'Procrastinating whether or not you actually have a good reason, then backing it up with a pile of excuses',
+      'Showing no real interest in getting better or more skilled at the thing you claim to want',
+      'Constant indecision — deflecting every choice instead of facing it, then excusing the delay',
+      'Reaching for an excuse instead of doing the work to build an actual plan',
+      'Self-satisfaction — a comfort with “good enough” that quietly kills any further push',
+      'Indifference that shows up as compromising the moment there’s friction, instead of standing your ground',
+      'Blaming other people or “bad luck” for mistakes that were actually yours to own',
+      'A weak desire, because you never chose a motive strong enough to carry you through',
+      'Being ready — even eager — to quit at the first real sign of defeat',
+      'Having no organized plan written down anywhere you could actually review and fix',
+      'Sitting on good ideas instead of acting the moment the opportunity is in front of you',
+      'Wishing for the outcome instead of actually willing yourself to do what it takes',
+      'Compromising with a smaller life instead of aiming at the one you actually want',
+      'Chasing shortcuts — trying to get without giving a fair trade for it',
+      'Letting the fear of what other people will think stop you from making the plan at all',
+    ] },
+  { id:'t3', icon:'i-focus', title:'The Power Of A Definite Purpose', sub:'Vague goals produce vague effort',
+    intro:'“I want to do better” asks nothing of you. A definite purpose — specific, dated, and written down — gives your daily choices something to be measured against.',
+    points:[
+      'State exactly what you want, not a vague direction',
+      'Attach a deadline — purpose without a date is just a wish',
+      'Write it down; a purpose that lives only in your head is negotiable',
+      'Break it into the daily blocks that Disciplin tracks for you',
+      'Re-read it on the days you’re tempted to skip — that’s exactly when it matters most',
+    ] },
+  { id:'t4', icon:'i-gear', title:'Mastering Self-Discipline', sub:'Discipline is a skill, not a personality trait',
+    intro:'Nobody is naturally disciplined in every area — it’s built the same way strength is: small, repeated reps under mild resistance, done on schedule whether or not you feel like it.',
+    points:[
+      'Start with one block, not ten — discipline compounds from consistency, not intensity',
+      'Decide the night before; willpower is weakest in the moment of the task',
+      'Protect the window — a habit done “whenever” slowly becomes a habit done never',
+      'Let a missed window cost something small — friction is what makes standards real',
+      'Judge yourself on the process score, not just the good days',
+    ] },
+  { id:'t5', icon:'i-walk', title:'The Habit Of Going The Extra Mile', sub:'What separates good from exceptional',
+    intro:'The extra mile is quiet — the rep nobody’s watching, the block finished five minutes early instead of rushed. It rarely pays off immediately, which is exactly why so few people do it.',
+    points:[
+      'Do a little more than the minimum your standard requires',
+      'Finish the task, then improve one small detail before closing it out',
+      'Show up on the days that don’t feel like they count — those are the ones that do',
+      'Track it privately; the extra mile is for who you’re becoming, not an audience',
+    ] },
+  { id:'t6', icon:'i-heart', title:'Turning Setbacks Into Comebacks', sub:'A missed day is data, not a verdict',
+    intro:'Everyone breaks a streak eventually. What determines the next six months isn’t the miss — it’s whether you treat it as information or as proof you should quit.',
+    points:[
+      'Name the real reason — vague excuses repeat, specific causes get fixed',
+      'Resume the very next scheduled block — never wait for “a fresh start on Monday”',
+      'Lower the bar temporarily if needed, but don’t abandon the habit entirely',
+      'Use your report card’s pattern data — most setbacks cluster around the same trigger',
+      'Treat one miss as a data point and two in a row as a signal to redesign the plan',
+    ] },
+];
+const DAY_LABELS = ['M','T','W','T','F','S','S']; // Monday-first
+const uid = () => Math.random().toString(36).slice(2,10);
+
+/* ---------- storage ---------- */
+function seed(){
+  return {
+    version:1,
+    habits:[
+      {id:uid(), name:'Wake up',            icon:'i-sunrise',  time:'05:00', window:30,  grace:15, nn:true,  days:[1,2,3,4,5,6,0]},
+      {id:uid(), name:'Gym',                icon:'i-dumbbell', time:'05:30', window:60,  grace:15, nn:true,  days:[1,2,3,4,5,6]},
+      {id:uid(), name:'Read 20 pages',      icon:'i-book',     time:'07:30', window:90,  grace:15, nn:false, days:[1,2,3,4,5,6,0]},
+      {id:uid(), name:'Deep work · 3 hrs',  icon:'i-focus',    time:'09:00', window:120, grace:20, nn:false, days:[1,2,3,4,5]},
+      {id:uid(), name:'Evening walk',       icon:'i-walk',     time:'17:00', window:60,  grace:20, nn:false, days:[1,2,3,4,5,6,0]},
+      {id:uid(), name:'Journal + plan tomorrow', icon:'i-pen', time:'21:00', window:90,  grace:20, nn:false, days:[1,2,3,4,5,6,0]},
+    ],
+    days:{},           // 'YYYY-MM-DD' -> {committedAt, entries:{habitId:{s,at,excuse}}, alerted:{}}
+    settings:{ leads:[15,5], notify:false, sound:true, graceWeekly:2 },
+  };
+}
+let db;
+try{ db = JSON.parse(localStorage.getItem(STORE)) || seed(); }
+catch(e){ db = seed(); }
+if(!db.habits) db = seed();
+function save(){ localStorage.setItem(STORE, JSON.stringify(db)); }
+
+/* ---------- date/time helpers ---------- */
+const pad = n => String(n).padStart(2,'0');
+function dateStr(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+function todayStr(){ return dateStr(new Date()); }
+function fromStr(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function minsNow(){ const n=new Date(); return n.getHours()*60+n.getMinutes(); }
+function timeToMins(t){ const [h,m]=t.split(':').map(Number); return h*60+m; }
+function fmtMins(mins){
+  mins = ((mins%1440)+1440)%1440;
+  let h=Math.floor(mins/60), m=mins%60;
+  const ap = h>=12?'PM':'AM'; h=h%12; if(h===0)h=12;
+  return `${h}:${pad(m)} ${ap}`;
+}
+function fmtClock(d){ let h=d.getHours(),m=d.getMinutes(); const ap=h>=12?'PM':'AM'; h=h%12||12; return `${h}:${pad(m)} ${ap}`; }
+function mondayOf(d){ const x=new Date(d); const day=(x.getDay()+6)%7; x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x; }
+function weekKey(d){ return dateStr(mondayOf(d)); }
+function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ---------- schedule / scoring ---------- */
+function scheduledFor(ds){
+  const wd = fromStr(ds).getDay();
+  return db.habits.filter(h=>h.days.includes(wd)).sort((a,b)=>timeToMins(a.time)-timeToMins(b.time));
+}
+function dayRec(ds, create){
+  if(!db.days[ds] && create) db.days[ds] = {committedAt:null, entries:{}, alerted:{}};
+  return db.days[ds] || {committedAt:null, entries:{}, alerted:{}};
+}
+// status for a habit on a given day. Past days: unresolved = missed.
+function statusOf(h, ds){
+  const e = dayRec(ds).entries[h.id];
+  if(e) return e.s;
+  const today = todayStr();
+  if(ds < today) return 'missed';
+  if(ds > today) return 'upcoming';
+  const now = minsNow(), start = timeToMins(h.time), close = start + h.window;
+  if(now < start) return 'upcoming';
+  if(now < close) return 'open';
+  return 'missed';
+}
+const CREDIT = {done:1, grace:1, late:0.6, missed:0};
+// live=true -> denominator is resolved habits only (today's running score)
+function dayResult(ds, live){
+  const habits = scheduledFor(ds);
+  let pts=0, resolved=0, nnMissed=0, late=0, doneCount=0, penalties=0;
+  habits.forEach(h=>{
+    const s = statusOf(h, ds);
+    if(s==='open'||s==='upcoming') return;
+    resolved++;
+    pts += CREDIT[s];
+    if(s==='late'){ late++; doneCount++; }
+    if(s==='done'||s==='grace') doneCount++;
+    if(s==='missed' && h.nn){ nnMissed++; penalties += 0.5; }
+  });
+  const total = live ? resolved : habits.length;
+  const score = total===0 ? null : Math.max(0, Math.round((pts - penalties)/total*100));
+  return {total:habits.length, resolved, score, nnMissed, late, doneCount, scheduled:habits.length};
+}
+function gradeOf(pct){
+  if(pct==null) return {letter:'—',sup:''};
+  const t=[[97,'A','+'],[93,'A',''],[90,'A','−'],[87,'B','+'],[83,'B',''],[80,'B','−'],[77,'C','+'],[73,'C',''],[70,'C','−'],[67,'D','+'],[63,'D',''],[60,'D','−']];
+  for(const [min,l,s] of t) if(pct>=min) return {letter:l,sup:s};
+  return {letter:'F',sup:''};
+}
+function periodDays(period){
+  // returns array of dateStrs from period start through today
+  const today = new Date(); today.setHours(0,0,0,0);
+  let start;
+  if(period==='week') start = mondayOf(today);
+  else if(period==='month') start = new Date(today.getFullYear(), today.getMonth(), 1);
+  else start = new Date(today.getFullYear(), 0, 1);
+  const out=[];
+  for(let d=new Date(start); d<=today; d=addDays(d,1)) out.push(dateStr(d));
+  return out;
+}
+function periodStats(period){
+  const days = periodDays(period);
+  const today = todayStr();
+  const first = firstDataDate();
+  let scores=[], nnMissed=0, late=0, done=0, missed=0;
+  days.forEach(ds=>{
+    if(ds < first) return; // days before tracking began don't count against you
+    const r = dayResult(ds, ds===today);
+    if(r.scheduled===0) return;
+    if(ds===today && r.resolved===0) return;
+    if(r.score!=null) scores.push(r.score);
+    nnMissed += r.nnMissed;
+    late += r.late;
+    done += r.doneCount;
+    missed += (ds===today ? r.resolved : r.scheduled) - r.doneCount;
+  });
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  return {avg, nnMissed, late, done, missed, daysCounted:scores.length};
+}
+function graceUsedInWeek(d){
+  const mon = mondayOf(d);
+  let used=0;
+  for(let i=0;i<7;i++){
+    const ds = dateStr(addDays(mon,i));
+    const rec = db.days[ds];
+    if(rec) Object.values(rec.entries).forEach(e=>{ if(e.s==='grace') used++; });
+  }
+  return used;
+}
+function graceLeft(){ return Math.max(0, db.settings.graceWeekly - graceUsedInWeek(new Date())); }
+function streak(){
+  let s=0;
+  let d = addDays(new Date(),-1);
+  for(let i=0;i<730;i++){
+    const ds = dateStr(d);
+    const r = dayResult(ds,false);
+    if(r.scheduled>0){
+      if(r.score>=70) s++; else break;
+    }
+    d = addDays(d,-1);
+    if(ds <= firstDataDate()) break;
+  }
+  const t = dayResult(todayStr(), true);
+  if(t.scheduled>0 && t.resolved===t.scheduled && t.score>=70) s++;
+  return s;
+}
+function firstDataDate(){
+  const keys = Object.keys(db.days).sort();
+  return keys[0] || todayStr();
+}
+function trend30(){
+  const today = new Date();
+  const avgRange = (from,to)=>{ // days ago, inclusive
+    let sc=[];
+    for(let i=from;i<=to;i++){
+      const ds = dateStr(addDays(today,-i));
+      if(ds < firstDataDate()) break;
+      const r = dayResult(ds,false);
+      if(r.scheduled>0 && r.score!=null) sc.push(r.score);
+    }
+    return sc.length ? sc.reduce((a,b)=>a+b,0)/sc.length : null;
+  };
+  const recent = avgRange(1,30), prior = avgRange(31,60);
+  if(recent==null || prior==null) return null;
+  return Math.round(recent-prior);
+}
+
+/* ---------- auto-miss + alerts (the 15/5-minute round-up nudge) ---------- */
+let audioCtx;
+function beep(){
+  if(!db.settings.sound) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    const t = audioCtx.currentTime;
+    [[880,0],[660,.18]].forEach(([f,off])=>{
+      const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+      o.frequency.value=f; o.type='sine';
+      g.gain.setValueAtTime(.12,t+off); g.gain.exponentialRampToValueAtTime(.001,t+off+.25);
+      o.connect(g); g.connect(audioCtx.destination); o.start(t+off); o.stop(t+off+.3);
+    });
+  }catch(e){}
+}
+function notify(title, body, warn){
+  showToast(`${title} — ${body}`, warn);
+  beep();
+  if(db.settings.notify && 'Notification' in window && Notification.permission==='granted'){
+    try{ new Notification(title,{body, icon:'logo.png', tag:'disciplin-'+title}); }catch(e){}
+  }
+}
+function tick(){
+  const ds = todayStr();
+  const now = minsNow();
+  const rec = dayRec(ds, true);
+  let changed=false;
+  scheduledFor(ds).forEach(h=>{
+    const start = timeToMins(h.time), close = start + h.window;
+    const e = rec.entries[h.id];
+    // auto-lock misses
+    if(!e && now >= close){
+      rec.entries[h.id] = {s:'missed', at:Date.now(), excuse:''};
+      changed = true;
+      notify(h.name, `Window closed at ${fmtMins(close)} — marked missed.`, true);
+      return;
+    }
+    if(e) return;
+    // pre-block alerts at each configured lead (15 / 5 min): round up what you're doing
+    db.settings.leads.forEach(lead=>{
+      const key = `${h.id}:${lead}`;
+      if(!rec.alerted[key] && now >= start-lead && now < start){
+        rec.alerted[key]=true; changed=true;
+        notify(h.name, `Starts in ${start-now} minute${start-now===1?'':'s'} — round up what you're doing.`);
+      }
+    });
+    const okey = `${h.id}:open`;
+    if(!rec.alerted[okey] && now >= start && now < Math.min(close, start+3)){
+      rec.alerted[okey]=true; changed=true;
+      notify(h.name, `Window is open — check in before ${fmtMins(close)}.`);
+    }
+  });
+  if(changed){ save(); if(curScreen==='scr-today') renderToday(); }
+}
+
+/* ---------- toast ---------- */
+let toastTimer;
+function showToast(msg, warn){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.toggle('warn', !!warn);
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+/* ---------- modal ---------- */
+function openModal(html){ $('#modal').innerHTML = html; $('#overlay').classList.add('show'); }
+function closeModal(){ $('#overlay').classList.remove('show'); }
+$('#overlay').addEventListener('click', e=>{ if(e.target===$('#overlay')) closeModal(); });
+
+/* ---------- navigation ---------- */
+let curScreen = 'scr-today';
+const RENDER = {'scr-today':renderToday,'scr-report':renderReport,'scr-learn':renderLearn,'scr-habits':renderHabits,'scr-settings':renderSettings};
+$$('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    $$('.tab').forEach(t=>t.classList.remove('cur'));
+    tab.classList.add('cur');
+    curScreen = tab.dataset.scr;
+    $$('.screen').forEach(s=>s.classList.remove('on'));
+    const scr = $('#'+curScreen);
+    RENDER[curScreen]();
+    scr.classList.add('on');
+  });
+});
+
+/* =====================================================
+   TODAY
+   ===================================================== */
+let ringAnimated = false;
+function renderToday(){
+  const ds = todayStr();
+  const now = minsNow();
+  const rec = dayRec(ds);
+  const habits = scheduledFor(ds);
+  const r = dayResult(ds, true);
+  const liveScore = r.resolved===0 ? null : r.score;
+  const tr = trend30();
+  const st = streak();
+  const gl = graceLeft();
+  const dObj = new Date();
+  const dateLabel = dObj.toLocaleDateString('en-US',{weekday:'long', month:'short', day:'numeric'});
+
+  const trendHtml = tr==null ? '<b>—</b>'
+    : tr<0 ? `<b class="trend-down">▼ ${Math.abs(tr)} pts</b>`
+    : tr>0 ? `<b class="trend-up">▲ ${tr} pts</b>` : '<b>— 0 pts</b>';
+
+  const cards = habits.map(h=>{
+    const s = statusOf(h, ds);
+    const e = rec.entries[h.id];
+    const start = timeToMins(h.time), close = start+h.window;
+    const nn = h.nn ? ' <span class="nn">NN</span>' : '';
+    if(s==='done'||s==='grace'){
+      const sub = s==='grace' ? 'Grace token used' : `Checked in ${e&&e.at?fmtClock(new Date(e.at)):''}`;
+      return `<div class="glass habit done"><div class="chip"><svg class="ic"><use href="#${h.icon}"/></svg></div>
+        <div class="info"><h3>${esc(h.name)}${nn}</h3><p>${sub}</p></div>
+        <div class="right"><div class="time">${fmtMins(start)}</div><div class="state">${s==='grace'?'Grace ✓':'Done'}</div></div></div>`;
+    }
+    if(s==='late'){
+      const lateBy = e&&e.at ? Math.max(1, Math.round((new Date(e.at).getHours()*60+new Date(e.at).getMinutes()-start))) : '';
+      return `<div class="glass habit late"><div class="chip"><svg class="ic"><use href="#${h.icon}"/></svg></div>
+        <div class="info"><h3>${esc(h.name)}${nn}</h3><p>Checked in ${e&&e.at?fmtClock(new Date(e.at)):''}${lateBy?` · ${lateBy} min late`:''}</p></div>
+        <div class="right"><div class="time">${fmtMins(start)}</div><div class="state">Late ×0.6</div></div></div>`;
+    }
+    if(s==='missed'){
+      const graceBtn = gl>0 ? `<button class="gracebtn" data-grace="${h.id}">Use grace (${gl})</button>` : '';
+      return `<div class="glass habit missed"><div class="chip"><svg class="ic"><use href="#${h.icon}"/></svg></div>
+        <div class="info"><h3>${esc(h.name)}${nn}</h3><p>Window closed ${fmtMins(close)}</p></div>
+        <div class="right"><div class="time">${fmtMins(start)}</div><div class="state">Missed${h.nn?' −0.5':''}</div>${graceBtn}</div></div>`;
+    }
+    if(s==='open'){
+      const remain = close-now;
+      return `<div class="glass habit open" data-habit="${h.id}"><div class="chip"><svg class="ic"><use href="#${h.icon}"/></svg></div>
+        <div class="info"><h3>${esc(h.name)}${nn}</h3><p>Window open · closes ${fmtMins(close)}</p>
+        <div class="window-note" data-close="${close}">${pad(Math.floor(remain))}:00 remaining</div></div>
+        <div class="right"><button class="checkbtn" data-check="${h.id}">Check in</button></div></div>`;
+    }
+    // upcoming
+    const inMins = start-now;
+    const inTxt = inMins>=60 ? `In ${Math.floor(inMins/60)}h ${inMins%60}m` : `In ${inMins}m`;
+    return `<div class="glass habit upcoming"><div class="chip"><svg class="ic"><use href="#${h.icon}"/></svg></div>
+      <div class="info"><h3>${esc(h.name)}${nn}</h3><p>Opens ${fmtMins(start)}</p></div>
+      <div class="right"><div class="time">${fmtMins(start)}</div><div class="state">${inTxt}</div></div></div>`;
+  }).join('');
+
+  // reflection needed?
+  const needRefl = habits.filter(h=>{
+    const e = rec.entries[h.id];
+    return e && e.s==='missed' && !e.excuse;
+  });
+  const nnRefl = needRefl.filter(h=>h.nn).length;
+
+  const committed = rec.committedAt;
+  const commitHtml = habits.length===0 ? '' :
+    committed
+      ? `<button class="commit done-commit" disabled>Committed — ${fmtClock(new Date(committed))}</button>`
+      : `<button class="commit" id="commitBtn">Commit to today's plan</button>`;
+
+  const reflHtml = needRefl.length===0 ? '' :
+    `<button class="review-cta ${nnRefl?'alert':''}" id="reflBtn">Complete today's check-in
+      <small>${needRefl.length} reflection${needRefl.length>1?'s':''} required${nnRefl?' — you missed a non-negotiable':''}</small>
+    </button>`;
+
+  const listHtml = habits.length===0
+    ? `<div class="empty-note">No blocks scheduled today.<br>Build your routine in the Habits tab.<br>
+        <button class="checkbtn" id="goHabits">Add your first habit</button></div>`
+    : cards;
+
+  $('#scr-today').innerHTML = `
     <div class="today-head rise d1">
       <div>
-        <div class="eyebrow">Wednesday, Aug 12</div>
+        <div class="eyebrow">${dateLabel}</div>
         <h1 class="serif">Today</h1>
       </div>
-      <div class="date" id="blockCount">3 of 6 blocks done</div>
+      <div class="date">${r.doneCount} of ${habits.length} blocks done</div>
     </div>
-
     <div class="glass scorecard rise d2">
       <div class="ring">
         <svg width="92" height="92" viewBox="0 0 92 92">
@@ -311,198 +930,535 @@
           <circle id="ringArc" cx="46" cy="46" r="40" fill="none" stroke="#F59E0B" stroke-width="8"
                   stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3"/>
         </svg>
-        <div class="num"><b id="scoreNum">0</b><span>Score</span></div>
+        <div class="num"><b id="scoreNum">${liveScore==null?'—':'0'}</b><span>Score</span></div>
       </div>
       <div class="score-meta">
-        <div class="row"><span>30-day trend</span><b class="trend-down">▼ 4 pts</b></div>
-        <div class="row"><span>Current streak</span><b>6 days</b></div>
-        <div class="row"><span>Grace tokens</span><b>1 of 2 left</b></div>
+        <div class="row"><span>30-day trend</span>${trendHtml}</div>
+        <div class="row"><span>Current streak</span><b>${st} day${st===1?'':'s'}</b></div>
+        <div class="row"><span>Grace tokens</span><b>${gl} of ${db.settings.graceWeekly} left</b></div>
       </div>
     </div>
-
-    <button class="commit rise d3" id="commitBtn">Commit to today’s plan</button>
-
+    ${commitHtml}
     <div class="tl-label rise d4">
       <span class="eyebrow">Schedule</span>
       <span>No backfilling · windows enforced</span>
     </div>
+    ${listHtml}
+    ${reflHtml}
+  `;
 
-    <div class="glass habit done rise d5">
-      <div class="chip"><svg class="ic"><use href="#i-sunrise"/></svg></div>
-      <div class="info"><h3>Wake up <span class="nn">NN</span></h3><p>Checked in 5:04 AM</p></div>
-      <div class="right"><div class="time">5:00 AM</div><div class="state">Done</div></div>
-    </div>
-
-    <div class="glass habit missed rise d6">
-      <div class="chip"><svg class="ic"><use href="#i-dumbbell"/></svg></div>
-      <div class="info"><h3>Gym <span class="nn">NN</span></h3><p>Window closed 6:30 AM</p></div>
-      <div class="right"><div class="time">5:30 AM</div><div class="state">Missed −0.5</div></div>
-    </div>
-
-    <div class="glass habit late rise d7">
-      <div class="chip"><svg class="ic"><use href="#i-book"/></svg></div>
-      <div class="info"><h3>Read 20 pages</h3><p>Checked in 8:12 AM · 42 min late</p></div>
-      <div class="right"><div class="time">7:30 AM</div><div class="state">Late ×0.6</div></div>
-    </div>
-
-    <div class="glass habit done rise d7">
-      <div class="chip"><svg class="ic"><use href="#i-focus"/></svg></div>
-      <div class="info"><h3>Deep work · 3 hrs</h3><p>Checked in 9:00 AM</p></div>
-      <div class="right"><div class="time">9:00 AM</div><div class="state">Done</div></div>
-    </div>
-
-    <div class="glass habit open rise d8" id="openHabit">
-      <div class="chip"><svg class="ic"><use href="#i-walk"/></svg></div>
-      <div class="info">
-        <h3>Evening walk</h3>
-        <p>Window open · closes 6:00 PM</p>
-        <div class="window-note" id="countdown">19:42 remaining</div>
-      </div>
-      <div class="right"><button class="checkbtn" id="checkBtn">Check in</button></div>
-    </div>
-
-    <div class="glass habit upcoming rise d8">
-      <div class="chip"><svg class="ic"><use href="#i-pen"/></svg></div>
-      <div class="info"><h3>Journal + plan tomorrow</h3><p>Opens 9:00 PM</p></div>
-      <div class="right"><div class="time">9:00 PM</div><div class="state">In 3h 18m</div></div>
-    </div>
-
-    <button class="review-cta rise d9">Complete today’s check-in
-      <small>1 reflection required — you missed a non-negotiable</small>
-    </button>
-
-    <div class="tabbar">
-      <div class="tab cur"><svg class="ic"><use href="#i-home"/></svg>Today</div>
-      <div class="tab"><svg class="ic"><use href="#i-chart"/></svg>Stats</div>
-      <div class="tab"><svg class="ic"><use href="#i-list"/></svg>Habits</div>
-      <div class="tab"><svg class="ic"><use href="#i-gear"/></svg>Settings</div>
-    </div>
-
-    <div class="toast" id="toast">
-      <svg class="checkmark" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg>
-      Evening walk — checked in at 5:38 PM
-    </div>
-  </div>
-
-  <!-- ================= REPORT CARD ================= -->
-  <div class="screen" id="scr-report">
-    <div class="rc-head rise d1">
-      <div class="eyebrow">Week 32 · Aug 4 – Aug 10</div>
-      <h1 class="serif">Report Card</h1>
-    </div>
-
-    <div class="glass grade-card rise d2">
-      <div class="grade serif">B<sup>−</sup></div>
-      <div class="grade-sub">Weekly average <b>81%</b> · down from B+ last week</div>
-      <div class="verdict">You missed <b>Gym twice</b> — both on days you slept past 5:20 AM. Your week breaks at the alarm, not at the gym.</div>
-      <div class="brandstamp"><img class="mini" src="data:image/png;base64,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" alt=""><span class="serif">Disciplin</span><span>· Week 32</span></div>
-    </div>
-
-    <div class="glass week-strip rise d3">
-      <div class="day d-done">MON<div class="dot">✓</div></div>
-      <div class="day d-done">TUE<div class="dot">✓</div></div>
-      <div class="day d-miss">WED<div class="dot">✕</div></div>
-      <div class="day d-late">THU<div class="dot">~</div></div>
-      <div class="day d-done">FRI<div class="dot">✓</div></div>
-      <div class="day d-miss">SAT<div class="dot">✕</div></div>
-      <div class="day d-off">SUN<div class="dot">R</div></div>
-    </div>
-
-    <div class="snap rise d4">
-      <div class="glass cell"><b>81%</b><span>Week avg</span></div>
-      <div class="glass cell bad"><b>2</b><span>NN missed</span></div>
-      <div class="glass cell warn"><b>3</b><span>Late</span></div>
-      <div class="glass cell"><b>1</b><span>Grace left</span></div>
-    </div>
-
-    <div class="glass excuse rise d5">
-      <h4>Your excuses this month</h4>
-      <div class="ex-row"><p>“Slept late”</p><div class="bar" data-w="96"></div><span>×9</span></div>
-      <div class="ex-row"><p>“No power”</p><div class="bar" data-w="52"></div><span>×4</span></div>
-      <div class="ex-row"><p>“Client call”</p><div class="bar" data-w="30"></div><span>×2</span></div>
-    </div>
-
-    <button class="share rise d6">Share report card</button>
-
-    <div class="tabbar">
-      <div class="tab"><svg class="ic"><use href="#i-home"/></svg>Today</div>
-      <div class="tab cur"><svg class="ic"><use href="#i-chart"/></svg>Stats</div>
-      <div class="tab"><svg class="ic"><use href="#i-list"/></svg>Habits</div>
-      <div class="tab"><svg class="ic"><use href="#i-gear"/></svg>Settings</div>
-    </div>
-  </div>
-</div>
-
-<script>
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ----- score ring load-in: 0 -> 72 with count-up ----- */
-  const num=document.getElementById('scoreNum');
-  const arc=document.getElementById('ringArc');
-  let current=0;
-  function setScore(v){ num.textContent=v; arc.setAttribute('stroke-dashoffset', 251.3*(1-v/100)); }
-  function animateScore(to, dur){
-    if(reduceMotion){ current=to; setScore(to); return; }
-    const from=current, t0=performance.now();
-    function step(t){
-      const p=Math.min((t-t0)/dur,1), e=1-Math.pow(1-p,3);
-      setScore(Math.round(from+(to-from)*e));
-      if(p<1) requestAnimationFrame(step); else current=to;
-    }
-    requestAnimationFrame(step);
+  // ring animation
+  if(liveScore!=null){
+    const color = liveScore>=85 ? '#34D399' : liveScore>=60 ? '#F59E0B' : '#EF4444';
+    $('#ringArc').setAttribute('stroke', color);
+    animateScore(liveScore, ringAnimated?600:1400);
+    ringAnimated = true;
   }
-  setTimeout(()=>animateScore(72,1400), 350);
 
-  /* ----- screen switcher ----- */
-  document.querySelectorAll('.switcher button').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.switcher button').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');
-      document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('on'); s.style.display='none';});
-      const scr=document.getElementById(btn.dataset.target);
-      scr.style.display='flex';
-      // restart entrance animations
-      scr.querySelectorAll('.rise').forEach(el=>{el.style.animation='none'; el.offsetHeight; el.style.animation='';});
-      scr.classList.add('on');
-      if(btn.dataset.target==='scr-report') setTimeout(growBars, 500);
+  // wire events
+  const cb = $('#commitBtn');
+  if(cb) cb.addEventListener('click', ()=>{
+    dayRec(ds,true).committedAt = Date.now(); save();
+    renderToday();
+    showToast('Committed. No backfilling — windows are enforced.');
+  });
+  $$('#scr-today [data-check]').forEach(b=>b.addEventListener('click', ()=>checkIn(b.dataset.check)));
+  $$('#scr-today [data-grace]').forEach(b=>b.addEventListener('click', ()=>useGrace(b.dataset.grace)));
+  const rb = $('#reflBtn'); if(rb) rb.addEventListener('click', openReflection);
+  const gh = $('#goHabits'); if(gh) gh.addEventListener('click', ()=>$$('.tab')[2].click());
+}
+
+function animateScore(to, dur){
+  const num = $('#scoreNum'), arc = $('#ringArc');
+  if(!num||!arc) return;
+  const set = v=>{ num.textContent=v; arc.setAttribute('stroke-dashoffset', 251.3*(1-v/100)); };
+  if(reduceMotion || document.hidden){ set(to); return; } // rAF is frozen in background tabs
+  const from = parseInt(num.textContent)||0, t0=performance.now();
+  (function step(t){
+    const p=Math.min((t-t0)/dur,1), e=1-Math.pow(1-p,3);
+    set(Math.round(from+(to-from)*e));
+    if(p<1) requestAnimationFrame(step);
+  })(t0);
+}
+
+function checkIn(id){
+  const h = db.habits.find(x=>x.id===id); if(!h) return;
+  const ds = todayStr(), now = minsNow(), start = timeToMins(h.time);
+  const rec = dayRec(ds,true);
+  if(rec.entries[id]) return;
+  const s = (now-start) <= h.grace ? 'done' : 'late';
+  rec.entries[id] = {s, at:Date.now(), excuse:''};
+  save();
+  renderToday();
+  const card = $(`#scr-today .habit.${s==='done'?'done':'late'}`);
+  showToast(`${h.name} — checked in at ${fmtClock(new Date())}${s==='late'?' (late ×0.6)':''}`, s==='late');
+}
+function useGrace(id){
+  const h = db.habits.find(x=>x.id===id); if(!h) return;
+  if(graceLeft()<=0){ showToast('No grace tokens left this week', true); return; }
+  const rec = dayRec(todayStr(),true);
+  rec.entries[id] = {s:'grace', at:Date.now(), excuse:(rec.entries[id]||{}).excuse||''};
+  save(); renderToday();
+  showToast(`Grace token spent on ${h.name} — ${graceLeft()} left this week`);
+}
+
+/* ---------- reflection / excuses ---------- */
+function openReflection(){
+  const ds = todayStr(), rec = dayRec(ds);
+  const items = scheduledFor(ds).filter(h=>{
+    const e = rec.entries[h.id];
+    return e && e.s==='missed' && !e.excuse;
+  });
+  if(items.length===0) return;
+  const chips = h => EXCUSE_PRESETS.map(x=>`<button data-ex="${esc(x)}" data-h="${h.id}">${esc(x)}</button>`).join('');
+  openModal(`
+    <h2 class="serif">Reflection</h2>
+    <p class="sub">You don't move on until you name it. What happened?</p>
+    ${items.map(h=>`
+      <div class="refl-item" data-item="${h.id}">
+        <h3>✕ ${esc(h.name)}${h.nn?' <span class="nn">NN</span>':''}</h3>
+        <div class="excuse-chips">${chips(h)}</div>
+        <div class="field"><input type="text" placeholder="Or type your own…" data-custom="${h.id}"></div>
+      </div>`).join('')}
+    <div class="modal-actions">
+      <button class="btn-ghost" id="reflCancel">Later</button>
+      <button class="btn-primary" id="reflSave">Save reflection</button>
+    </div>
+  `);
+  const chosen = {};
+  $$('#modal [data-ex]').forEach(b=>b.addEventListener('click', ()=>{
+    $$(`#modal [data-h="${b.dataset.h}"]`).forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    chosen[b.dataset.h] = b.dataset.ex;
+    const inp = $(`#modal [data-custom="${b.dataset.h}"]`); if(inp) inp.value='';
+  }));
+  $('#reflCancel').addEventListener('click', closeModal);
+  $('#reflSave').addEventListener('click', ()=>{
+    let saved = 0;
+    items.forEach(h=>{
+      const custom = ($(`#modal [data-custom="${h.id}"]`).value||'').trim();
+      const ex = custom || chosen[h.id];
+      if(ex){ rec.entries[h.id].excuse = ex; saved++; }
+    });
+    if(saved===0){ showToast('Pick or type a reason for at least one miss', true); return; }
+    save(); closeModal(); renderToday();
+    showToast('Reflection saved. It shows up on your report card.');
+  });
+}
+
+/* =====================================================
+   REPORT CARD
+   ===================================================== */
+let period = 'week';
+function renderReport(){
+  const stats = periodStats(period);
+  const g = gradeOf(stats.avg);
+  const today = new Date();
+  const mon = mondayOf(today);
+  const periodLabel = period==='week'
+    ? `Week of ${mon.toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${addDays(mon,6).toLocaleDateString('en-US',{month:'short',day:'numeric'})}`
+    : period==='month' ? today.toLocaleDateString('en-US',{month:'long',year:'numeric'})
+    : String(today.getFullYear());
+
+  // week strip (always current week)
+  const tds = todayStr();
+  const first = firstDataDate();
+  const stripDays = [];
+  for(let i=0;i<7;i++){
+    const d = addDays(mon,i), ds = dateStr(d);
+    const lbl = d.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase();
+    if(ds > tds || ds < first){ stripDays.push({lbl, cls:'d-off', sym:'·'}); continue; }
+    const r = dayResult(ds, ds===tds);
+    if(r.scheduled===0){ stripDays.push({lbl, cls:'d-off', sym:'R'}); continue; }
+    if(ds===tds && r.resolved===0){ stripDays.push({lbl, cls:'d-off', sym:'·'}); continue; }
+    if(r.nnMissed>0 || r.score<60) stripDays.push({lbl, cls:'d-miss', sym:'✕'});
+    else if(r.score>=80) stripDays.push({lbl, cls:'d-done', sym:'✓'});
+    else stripDays.push({lbl, cls:'d-late', sym:'~'});
+  }
+
+  // verdict from data
+  let verdict;
+  if(stats.daysCounted===0){
+    verdict = 'No data yet this ' + period + '. Show up, check in, and your verdict gets written here.';
+  } else {
+    const missCount = {};
+    periodDays(period).forEach(ds=>{
+      if(ds < first) return;
+      scheduledFor(ds).forEach(h=>{
+        if(ds===tds && !dayRec(ds).entries[h.id]) return;
+        if(statusOf(h,ds)==='missed') missCount[h.name]=(missCount[h.name]||0)+1;
+      });
+    });
+    const worst = Object.entries(missCount).sort((a,b)=>b[1]-a[1])[0];
+    if(worst){
+      const exc = topExcuses(period)[0];
+      verdict = `You missed <b>${esc(worst[0])} ${worst[1]===1?'once':worst[1]===2?'twice':worst[1]+' times'}</b>` +
+        (exc ? ` — top reason logged: “${esc(exc[0])}”. Fix the cause, not the calendar.` : `. The pattern is the problem, not the day.`);
+    } else {
+      verdict = `Zero misses this ${period}. ${stats.late>0?`Tighten up the ${stats.late} late check-in${stats.late>1?'s':''} and this becomes an A.`:'Clean sheet — keep the standard.'}`;
+    }
+  }
+
+  const excuses = topExcuses(period);
+  const maxEx = excuses.length ? excuses[0][1] : 1;
+  const exHtml = excuses.length===0
+    ? `<p class="ex-none">No excuses logged this ${period}. Either you're clean or you're not reflecting.</p>`
+    : excuses.slice(0,4).map(([txt,n])=>
+        `<div class="ex-row"><p>“${esc(txt)}”</p><div class="bar" data-w="${Math.round(30+ (n/maxEx)*120)}"></div><span>×${n}</span></div>`).join('');
+
+  const gradeColor = stats.avg==null?'#8A93A6':stats.avg>=90?'#34D399':stats.avg>=75?'#F5B23C':'#EF4444';
+
+  $('#scr-report').innerHTML = `
+    <div class="rc-head rise d1">
+      <div>
+        <div class="eyebrow">${periodLabel}</div>
+        <h1 class="serif">Report Card</h1>
+      </div>
+      <div class="period-tabs">
+        <button data-p="week"  class="${period==='week'?'on':''}">W</button>
+        <button data-p="month" class="${period==='month'?'on':''}">M</button>
+        <button data-p="year"  class="${period==='year'?'on':''}">Y</button>
+      </div>
+    </div>
+    <div class="glass grade-card rise d2">
+      <div class="grade serif" style="color:${gradeColor};text-shadow:0 6px 40px ${gradeColor}55">${g.letter}${g.sup?`<sup>${g.sup}</sup>`:''}</div>
+      <div class="grade-sub">${stats.avg==null?'No scored days yet':`${period[0].toUpperCase()+period.slice(1)} average <b>${stats.avg}%</b> · ${stats.daysCounted} day${stats.daysCounted===1?'':'s'} scored`}</div>
+      <div class="verdict">${verdict}</div>
+      <div class="brandstamp"><img class="mini" src="logo.png" alt=""><span class="serif">Disciplin</span><span>· ${periodLabel}</span></div>
+    </div>
+    <div class="glass week-strip rise d3">
+      ${stripDays.map(d=>`<div class="day ${d.cls}">${d.lbl}<div class="dot">${d.sym}</div></div>`).join('')}
+    </div>
+    <div class="snap rise d4">
+      <div class="glass cell"><b>${stats.avg==null?'—':stats.avg+'%'}</b><span>${period} avg</span></div>
+      <div class="glass cell ${stats.nnMissed>0?'bad':''}"><b>${stats.nnMissed}</b><span>NN missed</span></div>
+      <div class="glass cell ${stats.late>0?'warn':''}"><b>${stats.late}</b><span>Late</span></div>
+      <div class="glass cell"><b>${graceLeft()}</b><span>Grace left</span></div>
+    </div>
+    <div class="glass excuse rise d5">
+      <h4>Your excuses this ${period}</h4>
+      ${exHtml}
+    </div>
+    <button class="share rise d6" id="shareBtn">Share report card</button>
+  `;
+
+  setTimeout(()=>$$('#scr-report .bar').forEach(b=>b.style.width=b.dataset.w+'px'), 500);
+  $$('#scr-report .period-tabs button').forEach(b=>b.addEventListener('click',()=>{ period=b.dataset.p; renderReport(); }));
+  $('#shareBtn').addEventListener('click', shareReport);
+}
+function topExcuses(p){
+  const counts = {};
+  periodDays(p).forEach(ds=>{
+    const rec = db.days[ds]; if(!rec) return;
+    Object.values(rec.entries).forEach(e=>{ if(e.excuse) counts[e.excuse]=(counts[e.excuse]||0)+1; });
+  });
+  return Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+}
+async function shareReport(){
+  const stats = periodStats(period);
+  const g = gradeOf(stats.avg);
+  const text =
+`Disciplin — ${period} report card
+Grade: ${g.letter}${g.sup} (${stats.avg==null?'no data':stats.avg+'%'})
+✓ ${stats.done} done · ~ ${stats.late} late · ✕ ${stats.missed} missed (${stats.nnMissed} non-negotiable)
+Streak: ${streak()} days
+Discipline is a score. Track yours.`;
+  if(navigator.share){
+    try{ await navigator.share({title:'Disciplin report card', text}); return; }catch(e){ if(e.name==='AbortError') return; }
+  }
+  try{ await navigator.clipboard.writeText(text); showToast('Report card copied to clipboard'); }
+  catch(e){ showToast('Could not copy — select and share manually', true); }
+}
+
+/* =====================================================
+   HABITS
+   ===================================================== */
+/* =====================================================
+   LEARN
+   ===================================================== */
+function renderLearn(){
+  const rows = LEARN_TOPICS.map((t,i)=>`
+    <div class="glass hb-card lesson-card" data-topic="${t.id}">
+      <div class="chip"><svg class="ic"><use href="#${t.icon}"/></svg></div>
+      <div class="info"><h3>${i+1}. ${esc(t.title)}</h3><p>${esc(t.sub)}</p></div>
+    </div>`).join('');
+  $('#scr-learn').innerHTML = `
+    <div class="rc-head rise d1">
+      <div>
+        <div class="eyebrow">${LEARN_TOPICS.length} lessons · sharpen the mind</div>
+        <h1 class="serif">Learn</h1>
+      </div>
+    </div>
+    ${rows}
+  `;
+  $$('#scr-learn [data-topic]').forEach(c=>c.addEventListener('click', ()=>openLesson(c.dataset.topic)));
+}
+
+function openLesson(id){
+  const t = LEARN_TOPICS.find(x=>x.id===id);
+  if(!t) return;
+  openModal(`
+    <h2 class="serif">${esc(t.title)}</h2>
+    <p class="sub">${esc(t.sub)}</p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:2px">${esc(t.intro)}</p>
+    <ul class="lesson-list">${t.points.map(p=>`<li><b>—</b><span>${esc(p)}</span></li>`).join('')}</ul>
+    <div class="modal-actions"><button class="btn-primary" id="lessonClose">Got it</button></div>
+  `);
+  $('#lessonClose').addEventListener('click', closeModal);
+}
+
+function renderHabits(){
+  const rows = db.habits.slice().sort((a,b)=>timeToMins(a.time)-timeToMins(b.time)).map(h=>{
+    const daysTxt = h.days.length===7 ? 'Every day'
+      : h.days.length===0 ? 'No days'
+      : [1,2,3,4,5,6,0].filter(d=>h.days.includes(d)).map(d=>['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d]).join(' · ');
+    return `<div class="glass hb-card">
+      <div class="chip"><svg class="ic"><use href="#${h.icon}"/></svg></div>
+      <div class="info"><h3>${esc(h.name)}${h.nn?' <span class="nn">NN</span>':''}</h3>
+        <p>${fmtMins(timeToMins(h.time))} · ${h.window} min window · ${daysTxt}</p></div>
+      <button class="editbtn" data-edit="${h.id}">Edit</button>
+    </div>`;
+  }).join('');
+  $('#scr-habits').innerHTML = `
+    <div class="rc-head rise d1">
+      <div>
+        <div class="eyebrow">${db.habits.length} block${db.habits.length===1?'':'s'} · your standard</div>
+        <h1 class="serif">Habits</h1>
+      </div>
+    </div>
+    ${rows || '<div class="empty-note">Nothing here yet.<br>Your routine starts with one block.</div>'}
+    <button class="addbtn" id="addHabit">+ New habit block</button>
+  `;
+  $('#addHabit').addEventListener('click', ()=>openHabitForm(null));
+  $$('#scr-habits [data-edit]').forEach(b=>b.addEventListener('click', ()=>openHabitForm(b.dataset.edit)));
+}
+
+function openHabitForm(id){
+  const h = id ? db.habits.find(x=>x.id===id) : {name:'', icon:'i-focus', time:'06:00', window:60, grace:15, nn:false, days:[1,2,3,4,5,6,0]};
+  const sel = new Set(h.days);
+  let icon = h.icon;
+  openModal(`
+    <h2 class="serif">${id?'Edit habit':'New habit'}</h2>
+    <p class="sub">${id?'Change the standard — history stays.':'Define the block. The window is the contract.'}</p>
+    <div class="field"><label>Name</label><input type="text" id="hf-name" value="${esc(h.name)}" placeholder="e.g. Gym" maxlength="40"></div>
+    <div class="field-row">
+      <div class="field"><label>Start time</label><input type="time" id="hf-time" value="${h.time}"></div>
+      <div class="field"><label>Window (min)</label><input type="number" id="hf-window" value="${h.window}" min="5" max="720"></div>
+    </div>
+    <div class="field"><label>On-time grace (min) — check in later than this and it counts Late ×0.6</label>
+      <input type="number" id="hf-grace" value="${h.grace}" min="0" max="120"></div>
+    <div class="field"><label>Days</label>
+      <div class="daypick" id="hf-days">${[1,2,3,4,5,6,0].map((d,i)=>`<button data-d="${d}" class="${sel.has(d)?'on':''}">${DAY_LABELS[i]}</button>`).join('')}</div></div>
+    <div class="field"><label>Icon</label>
+      <div class="iconpick" id="hf-icons">${ICONS.map(ic=>`<button data-ic="${ic}" class="${ic===icon?'on':''}"><svg class="ic"><use href="#${ic}"/></svg></button>`).join('')}</div></div>
+    <div class="nn-row"><div><p>Non-negotiable</p><small>Missing it costs an extra −0.5 and demands a reflection</small></div>
+      <button class="toggle ${h.nn?'on':''}" id="hf-nn"></button></div>
+    <div class="modal-actions">
+      ${id?'<button class="btn-danger" id="hf-delete">Delete</button>':''}
+      <button class="btn-ghost" id="hf-cancel">Cancel</button>
+      <button class="btn-primary" id="hf-save">Save</button>
+    </div>
+  `);
+  $$('#hf-days button').forEach(b=>b.addEventListener('click',()=>{
+    const d=+b.dataset.d;
+    if(sel.has(d)){sel.delete(d);b.classList.remove('on');} else {sel.add(d);b.classList.add('on');}
+  }));
+  $$('#hf-icons button').forEach(b=>b.addEventListener('click',()=>{
+    $$('#hf-icons button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); icon=b.dataset.ic;
+  }));
+  $('#hf-nn').addEventListener('click', e=>e.currentTarget.classList.toggle('on'));
+  $('#hf-cancel').addEventListener('click', closeModal);
+  if(id) $('#hf-delete').addEventListener('click', ()=>{
+    openModal(`
+      <h2 class="serif">Delete “${esc(h.name)}”?</h2>
+      <p class="sub">The block is removed from your schedule. Past check-ins stay in history.</p>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="del-no">Keep it</button>
+        <button class="btn-danger" id="del-yes">Delete</button>
+      </div>`);
+    $('#del-no').addEventListener('click', ()=>openHabitForm(id));
+    $('#del-yes').addEventListener('click', ()=>{
+      db.habits = db.habits.filter(x=>x.id!==id);
+      save(); closeModal(); renderHabits();
+      showToast(`${h.name} deleted`);
     });
   });
+  $('#hf-save').addEventListener('click', ()=>{
+    const name = $('#hf-name').value.trim();
+    const time = $('#hf-time').value;
+    const windowM = Math.max(5, Math.min(720, parseInt($('#hf-window').value)||60));
+    const grace = Math.max(0, Math.min(120, parseInt($('#hf-grace').value)||0));
+    const nn = $('#hf-nn').classList.contains('on');
+    if(!name){ showToast('Give it a name', true); return; }
+    if(!time){ showToast('Pick a start time', true); return; }
+    if(sel.size===0){ showToast('Pick at least one day', true); return; }
+    const data = {name, time, window:windowM, grace, nn, days:[...sel], icon};
+    if(id) Object.assign(db.habits.find(x=>x.id===id), data);
+    else db.habits.push({id:uid(), ...data});
+    save(); closeModal(); renderHabits();
+    if(curScreen==='scr-today') renderToday();
+    showToast(id?'Habit updated':'Habit added to your routine');
+  });
+}
 
-  /* ----- excuse bars grow when report opens ----- */
-  function growBars(){
-    document.querySelectorAll('.ex-row .bar').forEach(b=>{ b.style.width=b.dataset.w+'px'; });
+/* =====================================================
+   SETTINGS
+   ===================================================== */
+function renderSettings(){
+  const s = db.settings;
+  const perm = ('Notification' in window) ? Notification.permission : 'unsupported';
+  const notifStatus =
+    perm==='unsupported' ? 'This browser does not support notifications.' :
+    perm==='denied' ? 'Blocked by the browser — enable notifications for this site in browser settings.' :
+    perm==='granted' && s.notify ? 'Active — you will be nudged before every block while this page is open.' :
+    'Off — enable to get pre-block alerts.';
+  $('#scr-settings').innerHTML = `
+    <div class="rc-head rise d1">
+      <div>
+        <div class="eyebrow">Your rules, enforced</div>
+        <h1 class="serif">Settings</h1>
+      </div>
+    </div>
+    <div class="glass set-group rise d2">
+      <h4>Alerts</h4>
+      <div class="set-row"><div><p>Browser notifications</p><small>Nudges you before each block starts</small></div>
+        <button class="toggle ${s.notify&&perm==='granted'?'on':''}" id="st-notify"></button></div>
+      <div class="notif-status">${notifStatus}</div>
+      <div class="set-row" style="margin-top:8px"><div><p>Alert lead times</p><small>Minutes before a block to warn you</small></div>
+        <div class="lead-chips" id="st-leads">
+          ${[15,10,5].map(l=>`<button data-l="${l}" class="${s.leads.includes(l)?'on':''}">${l}m</button>`).join('')}
+        </div></div>
+      <div class="set-row"><div><p>Alert sound</p><small>Short chime with each alert</small></div>
+        <button class="toggle ${s.sound?'on':''}" id="st-sound"></button></div>
+    </div>
+    <div class="glass set-group rise d3">
+      <h4>Discipline rules</h4>
+      <div class="set-row"><div><p>Grace tokens per week</p><small>Convert a miss into a pass — scarcity is the point</small></div>
+        <div class="stepper"><button id="gr-minus">−</button><b id="gr-num">${s.graceWeekly}</b><button id="gr-plus">+</button></div></div>
+    </div>
+    <div class="glass set-group rise d4">
+      <h4>Data</h4>
+      <div class="set-actions">
+        <button id="st-export">Export JSON</button>
+        <button id="st-import">Import</button>
+        <button class="danger" id="st-reset">Reset all data</button>
+      </div>
+      <div class="notif-status">Everything is stored locally in this browser. Export regularly if you care about it.</div>
+    </div>
+    <div class="glass set-group rise d5">
+      <h4>About</h4>
+      <div class="set-row"><p style="color:var(--muted);font-size:12.5px;line-height:1.6">
+        Disciplin scores your day: Done = 1 · Late = ×0.6 · Missed = 0 (non-negotiables cost an extra −0.5).
+        Windows are enforced, no backfilling. Keep this tab open to receive pre-block alerts.
+      </p></div>
+    </div>
+  `;
+  $('#st-notify').addEventListener('click', async e=>{
+    const t = e.currentTarget;
+    if(!('Notification' in window)){ showToast('Notifications not supported here', true); return; }
+    if(!db.settings.notify || Notification.permission!=='granted'){
+      const p = await Notification.requestPermission();
+      if(p==='granted'){
+        db.settings.notify = true; save(); t.classList.add('on');
+        notify('Disciplin','Alerts are on. You will hear from me before every block.');
+        renderSettings();
+      } else { showToast('Permission not granted', true); renderSettings(); }
+    } else {
+      db.settings.notify = false; save(); t.classList.remove('on'); renderSettings();
+    }
+  });
+  $$('#st-leads button').forEach(b=>b.addEventListener('click', ()=>{
+    const l=+b.dataset.l, arr=db.settings.leads;
+    if(arr.includes(l)){ db.settings.leads = arr.filter(x=>x!==l); b.classList.remove('on'); }
+    else { arr.push(l); arr.sort((a,b2)=>b2-a); b.classList.add('on'); }
+    save();
+  }));
+  $('#st-sound').addEventListener('click', e=>{
+    db.settings.sound = !db.settings.sound; save();
+    e.currentTarget.classList.toggle('on');
+    if(db.settings.sound) beep();
+  });
+  $('#gr-minus').addEventListener('click', ()=>{ db.settings.graceWeekly=Math.max(0,db.settings.graceWeekly-1); save(); $('#gr-num').textContent=db.settings.graceWeekly; });
+  $('#gr-plus').addEventListener('click', ()=>{ db.settings.graceWeekly=Math.min(7,db.settings.graceWeekly+1); save(); $('#gr-num').textContent=db.settings.graceWeekly; });
+  $('#st-export').addEventListener('click', ()=>{
+    const blob = new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `disciplin-backup-${todayStr()}.json`;
+    a.click(); URL.revokeObjectURL(a.href);
+    showToast('Backup downloaded');
+  });
+  $('#st-import').addEventListener('click', ()=>$('#importFile').click());
+  $('#st-reset').addEventListener('click', ()=>{
+    openModal(`
+      <h2 class="serif">Reset everything?</h2>
+      <p class="sub">All habits, history, and scores in this browser will be wiped. This cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="rs-no">Cancel</button>
+        <button class="btn-danger" id="rs-yes">Wipe it all</button>
+      </div>`);
+    $('#rs-no').addEventListener('click', closeModal);
+    $('#rs-yes').addEventListener('click', ()=>{
+      localStorage.removeItem(STORE);
+      db = seed(); save();
+      closeModal(); renderSettings();
+      showToast('Fresh start. Default routine restored.');
+    });
+  });
+}
+$('#importFile').addEventListener('change', e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const data = JSON.parse(reader.result);
+      if(!data.habits || !data.settings) throw new Error('bad shape');
+      db = data; save();
+      RENDER[curScreen]();
+      showToast('Backup imported');
+    }catch(err){ showToast('Invalid backup file', true); }
+  };
+  reader.readAsText(f);
+  e.target.value='';
+});
+
+/* ---------- clock + countdown updater ---------- */
+function updateClock(){
+  const n = new Date();
+  $('#clock').textContent = fmtClock(n);
+  $('#dateShort').textContent = n.toLocaleDateString('en-US',{month:'short', day:'numeric'});
+  // live countdown on open habit windows
+  $$('#scr-today .window-note[data-close]').forEach(el=>{
+    const closeM = +el.dataset.close;
+    const remainS = closeM*60 - (n.getHours()*3600+n.getMinutes()*60+n.getSeconds());
+    if(remainS<=0){ tick(); return; }
+    el.textContent = `${pad(Math.floor(remainS/60))}:${pad(remainS%60)} remaining`;
+  });
+}
+
+/* ---------- day rollover ---------- */
+let lastDay = todayStr();
+setInterval(()=>{
+  if(todayStr()!==lastDay){
+    lastDay = todayStr();
+    ringAnimated = false;
+    RENDER[curScreen]();
   }
+}, 30000);
 
-  /* ----- commit button ----- */
-  const commitBtn=document.getElementById('commitBtn');
-  commitBtn.addEventListener('click',()=>{
-    commitBtn.textContent='Committed — 5:02 AM';
-    commitBtn.classList.add('done-commit');
-    commitBtn.disabled=true;
-  });
+/* ---------- refresh when tab returns to foreground ---------- */
+document.addEventListener('visibilitychange', ()=>{
+  if(!document.hidden){ tick(); RENDER[curScreen](); }
+});
 
-  /* ----- live countdown ----- */
-  let secs=19*60+42;
-  const cd=document.getElementById('countdown');
-  const tick=setInterval(()=>{
-    secs--; if(secs<0){clearInterval(tick);return;}
-    cd.textContent=`${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')} remaining`;
-  },1000);
-
-  /* ----- check-in: morph card, draw checkmark, score ticks up ----- */
-  document.getElementById('checkBtn').addEventListener('click',()=>{
-    const card=document.getElementById('openHabit');
-    card.classList.remove('open'); card.classList.add('done','just-done');
-    card.querySelector('.info p').textContent='Checked in 5:38 PM';
-    const note=card.querySelector('.window-note'); if(note) note.remove();
-    card.querySelector('.right').innerHTML='<div class="time">5:00 PM</div><div class="state">Done</div>';
-    clearInterval(tick);
-    animateScore(74, 900);
-    document.getElementById('blockCount').textContent='4 of 6 blocks done';
-    const toast=document.getElementById('toast');
-    toast.classList.add('show');
-    setTimeout(()=>toast.classList.remove('show'),2600);
-  });
+/* ---------- boot ---------- */
+save();
+renderToday();
+updateClock();
+tick();
+setInterval(updateClock, 1000);
+setInterval(tick, 20000);
 </script>
 </body>
 </html>
