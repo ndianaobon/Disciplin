@@ -603,7 +603,7 @@ let db;
 try{ db = JSON.parse(localStorage.getItem(STORE)) || seed(); }
 catch(e){ db = seed(); }
 if(!db.habits) db = seed();
-function save(){ localStorage.setItem(STORE, JSON.stringify(db)); }
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(db)); }catch(e){ /* storage unavailable — keep running in-memory */ } }
 
 /* ---------- date/time helpers ---------- */
 const pad = n => String(n).padStart(2,'0');
@@ -640,11 +640,13 @@ function statusOf(h, ds){
   const today = todayStr();
   if(ds < today) return 'missed';
   if(ds > today) return 'upcoming';
-  const now = minsNow(), start = timeToMins(h.time), close = start + h.window;
+  const now = minsNow(), start = timeToMins(h.time), close = closeOf(h);
   if(now < start) return 'upcoming';
   if(now < close) return 'open';
   return 'missed';
 }
+// windows are capped at midnight — a day's blocks resolve within that day
+function closeOf(h){ return Math.min(timeToMins(h.time) + h.window, 1439); }
 const CREDIT = {done:1, grace:1, late:0.6, missed:0};
 // live=true -> denominator is resolved habits only (today's running score)
 function dayResult(ds, live){
@@ -753,6 +755,7 @@ function beep(){
   if(!db.settings.sound) return;
   try{
     audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') audioCtx.resume();
     const t = audioCtx.currentTime;
     [[880,0],[660,.18]].forEach(([f,off])=>{
       const o=audioCtx.createOscillator(), g=audioCtx.createGain();
@@ -773,15 +776,16 @@ function tick(){
   const ds = todayStr();
   const now = minsNow();
   const rec = dayRec(ds, true);
+  if(!rec.alerted) rec.alerted = {}; // imported/legacy records may lack it
   let changed=false;
   scheduledFor(ds).forEach(h=>{
-    const start = timeToMins(h.time), close = start + h.window;
+    const start = timeToMins(h.time), close = closeOf(h);
     const e = rec.entries[h.id];
-    // auto-lock misses
+    // auto-lock misses — only announce fresh ones, not blocks long past when the app opens
     if(!e && now >= close){
       rec.entries[h.id] = {s:'missed', at:Date.now(), excuse:''};
       changed = true;
-      notify(h.name, `Window closed at ${fmtMins(close)} — marked missed.`, true);
+      if(now - close <= 15) notify(h.name, `Window closed at ${fmtMins(close)} — marked missed.`, true);
       return;
     }
     if(e) return;
@@ -857,7 +861,7 @@ function renderToday(){
   const cards = habits.map(h=>{
     const s = statusOf(h, ds);
     const e = rec.entries[h.id];
-    const start = timeToMins(h.time), close = start+h.window;
+    const start = timeToMins(h.time), close = closeOf(h);
     const nn = h.nn ? ' <span class="nn">NN</span>' : '';
     if(s==='done'||s==='grace'){
       const sub = s==='grace' ? 'Grace token used' : `Checked in ${e&&e.at?fmtClock(new Date(e.at)):''}`;
@@ -990,7 +994,6 @@ function checkIn(id){
   rec.entries[id] = {s, at:Date.now(), excuse:''};
   save();
   renderToday();
-  const card = $(`#scr-today .habit.${s==='done'?'done':'late'}`);
   showToast(`${h.name} — checked in at ${fmtClock(new Date())}${s==='late'?' (late ×0.6)':''}`, s==='late');
 }
 function useGrace(id){
